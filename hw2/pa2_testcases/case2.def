@@ -1,0 +1,26 @@
+VERSION 5.8 ;
+DIVIDERCHAR "/" ;
+BUSBITCHARS "[]" ;
+DESIGN Hitman_Reborn ;
+UNITS DISTANCE MICRONS 1000 ;
+
+DIEAREA ( 0 0 ) ( 20000 20000 ) ;
+
+ROW core_SITE_ROW_0 core 0 0 N DO 50 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_1 core 0 4000 FS DO 50 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_2 core 0 8000 N DO 50 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_3 core 0 12000 FS DO 50 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_4 core 0 16000 N DO 50 BY 1 STEP 400 0 ;
+
+COMPONENTS 8 ;
+- Sky Flame + PLACED ( -3641 1887 ) N ;
+- Sun Flame + PLACED ( 9526 12553 ) N ;
+- Lightning Flame + PLACED ( 16395 -1309 ) N ;
+- Storm Flame + PLACED ( -253 88 ) N ;
+- Rain Flame + PLACED ( 10938 19972 ) N ;
+- Cloud Flame + PLACED ( 3552 14550 ) N ;
+- Mist Flame + PLACED ( 12879 10552 ) N ;
+- Anger Flame + PLACED ( 15032 6454 ) N ;
+END COMPONENTS
+
+END DESIGN

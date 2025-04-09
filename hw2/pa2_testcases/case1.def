@@ -1,0 +1,26 @@
+VERSION 5.8 ;
+DIVIDERCHAR "/" ;
+BUSBITCHARS "[]" ;
+DESIGN Attack_on_Titan ;
+UNITS DISTANCE MICRONS 1000 ;
+
+DIEAREA ( 0 0 ) ( 10000 10000 ) ;
+
+ROW core_SITE_ROW_0 core 0 0 N DO 50 BY 1 STEP 200 0 ;
+ROW core_SITE_ROW_1 core 0 2000 FS DO 50 BY 1 STEP 200 0 ;
+ROW core_SITE_ROW_2 core 0 4000 N DO 50 BY 1 STEP 200 0 ;
+ROW core_SITE_ROW_3 core 0 6000 FS DO 50 BY 1 STEP 200 0 ;
+ROW core_SITE_ROW_4 core 0 8000 N DO 50 BY 1 STEP 200 0 ;
+
+COMPONENTS 8 ;
+- Attack Titan + PLACED ( 3876 3684 ) N ;
+- Armored Titan + PLACED ( 6879 8754 ) N ;
+- Colossal Titan + PLACED ( 13358 7182 ) N ;
+- Female Titan + PLACED ( 1069 5354 ) N ;
+- Beast Titan + PLACED ( 7265 11842 ) N ;
+- Hammer Titan + PLACED ( -523 -367 ) N ;
+- Jaw Titan + PLACED ( 2483 1483 ) N ;
+- Pure Titan + PLACED ( 4257 2154 ) N ;
+END COMPONENTS
+
+END DESIGN

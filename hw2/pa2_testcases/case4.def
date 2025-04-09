@@ -1,0 +1,38 @@
+VERSION 5.8 ;
+DIVIDERCHAR "/" ;
+BUSBITCHARS "[]" ;
+DESIGN Frieren_Beyond_Journe's_End ;
+UNITS DISTANCE MICRONS 1000 ;
+
+DIEAREA ( 0 0 ) ( 24000 16800 ) ;
+
+ROW core_SITE_ROW_0 core 0 0 N DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_1 core 0 2400 FS DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_2 core 0 4800 N DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_3 core 0 7200 FS DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_4 core 0 9600 N DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_5 core 0 12000 FS DO 60 BY 1 STEP 400 0 ;
+ROW core_SITE_ROW_6 core 0 14400 N DO 60 BY 1 STEP 400 0 ;
+
+COMPONENTS 18 ;
+- Frieren mage + PLACED ( 9790 -2813 ) N ;
+- Fern mage + PLACED ( 3614 17289 ) N ;
+- Serie mage + PLACED ( 6212 3381 ) N ;
+- Flamme mage + PLACED ( 22306 2142 ) N ;
+- Lernen mage + PLACED ( 2809 -2780 ) N ;
+- Sense mage + PLACED ( 11448 154 ) N ;
+- Denken mage + PLACED ( -472 1979 ) N ;
+- Ubel mage + PLACED ( 12641 9166 ) N ;
+- Land mage + PLACED ( 17206 13684 ) N ;
+- Wirbel mage + PLACED ( 5894 1340 ) N ;
+- Methode mage + PLACED ( 1706 4028 ) N ;
+- Richter mage + PLACED ( -2420 7031 ) N ;
+- Ehre mage + PLACED ( 18676 -2885 ) N ;
+- Edel mage + PLACED ( 2339 1839 ) N ;
+- Kanne mage + PLACED ( 120 15142 ) N ;
+- Lawine mage + PLACED ( 9960 12553 ) N ;
+- Laufen mage + PLACED ( 2786 16781 ) N ;
+- Scharf mage + PLACED ( 12823 7448 ) N ;
+END COMPONENTS
+
+END DESIGN
