@@ -6,6 +6,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 struct Row {
@@ -22,10 +23,13 @@ struct Row {
 struct Component {
     string instName;
     string macroName;
-    int x, y;
+    int originalX, originalY;
+    int laterX, laterY;
     string orientation;
 
-    Component(string instName, string macroName, int x, int y, string orientation);
+    Component(string instName, string macroName, int originalX, int originalY, string orientation);
 };
+
+void CellPlace (vector<vector<bool>> &rowSites, Component &cell, const int &siteWidth, const int &siteHight) {};
 
 #endif

@@ -45,13 +45,23 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    for (auto row : rows) {
-        cout  << "ROW " << row.rowName << " " << row.siteName << " " << row.x << " " << row.y << " " << row.orientation << " DO " << row.numX << " BY " << row.numY << " STEP " << row.stepX << " " << row.stepY << " ;" << endl;
+    vector<vector<bool>> rowSites;
+    for (const auto &row : rows) {
+        rowSites.emplace_back(row.numX, false);
     }
 
-    cout << endl;
+    // for (auto &row : rows) {
+    //     cout  << "ROW " << row.rowName << " " << row.siteName << " " << row.x << " " << row.y << " " << row.orientation << " DO " << row.numX << " BY " << row.numY << " STEP " << row.stepX << " " << row.stepY << " ;" << endl;
+    // }
 
-    for (auto component : components) {
-        cout << "- " << component.instName << " " << component.macroName << " + PLACED ( " << component.x << " " << component.y << " ) " << component.orientation << " ;" << endl;
-    }
+    // cout << endl;
+
+    // for (auto &component : components) {
+    //     cout << "- " << component.instName << " " << component.macroName << " + PLACED ( " << component.originalX << " " << component.originalY << " ) " << component.orientation << " ;" << endl;
+    // }
+
+    sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
+        if (a.originalX != b.originalX) return a.originalX < b.originalX;
+        return a.originalY < b.originalY;
+    });
 }
