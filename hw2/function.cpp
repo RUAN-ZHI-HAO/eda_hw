@@ -5,9 +5,9 @@ void CellPlace (vector<vector<bool>> &rowSites, Component &cell, const int &cell
     int bestXIndex = -1;
     int bestYIndex = -1;
     for (size_t i = 0; i < rowSites.size(); i++) {
-        for (size_t j = 0; j < rowSites[i].size() - cellSize; j++) {
+        for (size_t j = 0; j < rowSites[i].size() - cellSize + 1; j++) {
             bool canPlace = true;
-            for (int k = 0; k < cellSize - 1; k++) {
+            for (int k = 0; k <= cellSize - 1; k++) {
                 if (rowSites[i][j + k]) {
                     canPlace = false;
                     break;
