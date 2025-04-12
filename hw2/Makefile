@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -Wall
-SRCS = main.cpp myStruct.cpp 
+SRCS = main.cpp myStruct.cpp function.cpp gnuPlot.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all : legalizer

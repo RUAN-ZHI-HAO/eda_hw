@@ -1,4 +1,6 @@
 #include "myStruct.h"
+#include "function.h"
+#include "gnuPlot.h"
 
 int main(int argc, char* argv[]) {
     int cellSize = atoi(argv[1]);
@@ -45,23 +47,42 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    FindCellBestPlace(components, rows[0],rows[0].stepX, dieY / rows.size(), dieX, dieY);
+   
+    sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
+        return a.distance > b.distance;
+    });
+
+
+
     vector<vector<bool>> rowSites;
     for (const auto &row : rows) {
         rowSites.emplace_back(row.numX, false);
     }
-
     // for (auto &row : rows) {
     //     cout  << "ROW " << row.rowName << " " << row.siteName << " " << row.x << " " << row.y << " " << row.orientation << " DO " << row.numX << " BY " << row.numY << " STEP " << row.stepX << " " << row.stepY << " ;" << endl;
     // }
 
     // cout << endl;
 
-    // for (auto &component : components) {
-    //     cout << "- " << component.instName << " " << component.macroName << " + PLACED ( " << component.originalX << " " << component.originalY << " ) " << component.orientation << " ;" << endl;
-    // }
+    for (auto &component : components) {
+        cout << "- " << component.instName << " " << component.macroName << " + PLACED ( " << component.originalX << " " << component.originalY << " ) " << component.orientation  << " distance = " << component.distance << " ;" << endl;
+    }
 
-    sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
-        if (a.originalX != b.originalX) return a.originalX < b.originalX;
-        return a.originalY < b.originalY;
-    });
+    cout << endl;
+
+    for (auto &cell : components) {
+        CellPlace(rowSites, cell, cellSize, rows[0].stepX, dieY / rows.size(),dieX, dieY);
+    }
+
+    for (auto &component : components) {
+        cout << "- " << component.instName << " " << component.macroName << " + PLACED ( " << component.originalX << " " << component.originalY << " ) " << component.orientation  << " distance = " << component.distance << " laterX = " << component.laterX << " laterY = " << component.laterY << " ;" << endl;
+    }
+
+    // sort(components.begin(), components.end(), [](const Component &a, const Component &b) { //排序左到右、下到上
+    //     if (a.originalX != b.originalX) return a.originalX < b.originalX;
+    //     return a.originalY < b.originalY;
+    // });
+
+    DrawPlacement(rows, components, "placement.png", cellSize, rows[0].stepX, dieY / rows.size(), dieX, dieY);
 }

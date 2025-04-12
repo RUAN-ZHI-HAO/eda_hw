@@ -26,10 +26,9 @@ struct Component {
     int originalX, originalY;
     int laterX, laterY;
     string orientation;
+    int distance;
 
     Component(string instName, string macroName, int originalX, int originalY, string orientation);
 };
-
-void CellPlace (vector<vector<bool>> &rowSites, Component &cell, const int &siteWidth, const int &siteHight) {};
 
 #endif
