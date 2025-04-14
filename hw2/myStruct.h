@@ -31,4 +31,15 @@ struct Component {
     Component(string instName, string macroName, int originalX, int originalY, string orientation);
 };
 
+struct Cluster {
+    vector<Component*> cells;
+    vector<int> sites;
+    int originalMaxDisp;
+};
+
+struct PermResult {
+    vector<Component*> order;
+    int maxDisp;
+};
+
 #endif

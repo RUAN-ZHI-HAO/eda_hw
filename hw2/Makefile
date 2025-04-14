@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall
+CFLAGS = -Wall -O3 -march=native
 SRCS = main.cpp myStruct.cpp function.cpp gnuPlot.cpp
 OBJS = $(SRCS:.cpp=.o)
 
