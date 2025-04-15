@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
         return a.distance > b.distance;
     });
 
-    cout << components[0].distance << endl;
+    cout << "max distance = " << components[0].distance << endl;
 
     // sort(components.begin(), components.end(), [](const Component &a, const Component &b) { //排序左到右、下到上
     //     if (a.originalX != b.originalX) return a.originalX < b.originalX;
@@ -85,34 +85,36 @@ int main(int argc, char* argv[]) {
         CellPlace(rowSites, cell, cellSize, rows[0].stepX, dieY / rows.size(),dieX, dieY);
     }
 
-    sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
-        return a.distance > b.distance;
-    });
+    // sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
+    //     return a.distance > b.distance;
+    // });
 
-    vector<int> befor;
-    for (const auto &cell : components) {
-        befor.push_back(cell.distance);
-    }
+    // vector<int> befor;
+    // for (const auto &cell : components) {
+    //     befor.push_back(cell.distance);
+    // }
 
     int topKCount = components.size() * 0.1;
-    vector<Component*> topK = GatTopKDisplacedCells(components, topKCount);
-
-    for (Component* cell : topK) {
-        Cluster cl = FormCluster(cell, components, rowSites, 7);
-        PermResult best = FindBestPermutation(cl);
-        if (best.maxDisp < cl.originalMaxDisp)
-            // cout << "真的有優化" << endl;
-            ApplyClusterPlacement(cl, best);
+    cout << "max distance = " << components[0].distance << endl;
+    for (int i = 0; i < 50 ; i++) {
+        vector<Component*> topK = GatTopKDisplacedCells(components, 6);
+        for (Component* cell : topK) {
+            Cluster cl = FormCluster(cell, components, rowSites, 5);
+            PermResult best = FindBestPermutation(cl);
+            if (best.maxDisp < cl.originalMaxDisp)
+                // cout << "真的有優化" << endl;
+                ApplyClusterPlacement(cl, best);
+        }
     }
 
-    vector<int> after;
-    for (const auto &cell : components) {
-        after.push_back(cell.distance);
-    }
+    // vector<int> after;
+    // for (const auto &cell : components) {
+    //     after.push_back(cell.distance);
+    // }
 
-    for (int i = 0; i < befor.size(); i++) {
-        if (befor[i] != after[i]) cout << "這邊有不一樣 原本 = " << befor[i] << " 之後 " << after[i] << endl;
-    }
+    // for (size_t i = 0; i < befor.size(); i++) {
+    //     if (befor[i] != after[i]) cout << "這邊有不一樣 原本 = " << befor[i] << " 之後 " << after[i] << endl;
+    // }
 
     // cout << endl;
     // for (auto &component : components) {

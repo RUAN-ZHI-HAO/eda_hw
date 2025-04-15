@@ -111,9 +111,9 @@ void FindCellBestPlace (vector<Component> &cells, Row row, const int &siteWidth,
 }
 
 vector<Component*> GatTopKDisplacedCells(vector<Component> &components, int count) {
-    // sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
-    //     return a.distance > b.distance;
-    // });
+    sort(components.begin(), components.end(), [](const Component &a, const Component &b) {
+        return a.distance > b.distance;
+    });
 
     vector<Component*> result;
     for (int i = 0; i < count; i++) {
@@ -136,7 +136,7 @@ Cluster FormCluster(Component* center, vector<Component> &components, const vect
     });
 
     int centerIdx = -1;
-    for (int i = 0; i < sameRow.size(); i++) {
+    for (size_t i = 0; i < sameRow.size(); i++) {
         if (sameRow[i] == center) {
             centerIdx = i;
             break;
@@ -146,44 +146,49 @@ Cluster FormCluster(Component* center, vector<Component> &components, const vect
     if (centerIdx == -1) return cl;
 
     int start = max(0, centerIdx - range);
-    int end = min((int)sameRow.size(), centerIdx - range);
+    int end = min((int)sameRow.size(), centerIdx + range);
+    // cout << "start = " << start << " end = " << end << endl;
     for (int i = start; i <= end; i++) {
         cl.cells.push_back(sameRow[i]);
         cl.sites.push_back(sameRow[i]->laterX);
         cl.originalMaxDisp = max(cl.originalMaxDisp, sameRow[i]->distance);
     }
-
+    // cout << "cl size = " << cl.cells.size() << endl;
     return cl;
 }
 
 PermResult FindBestPermutation(const Cluster& cl) {
     PermResult best;
     best.maxDisp = INT_MAX;
+    // cout << "cl.cells size = " << cl.cells.size() << endl;
     auto cells = cl.cells;
+    // cout << "cells size = " << cells.size() << endl;
 
     do {
         int curMax = 0;
-        for (int i = 0; i < cells.size(); ++i) {
+        for (size_t i = 0; i < cells.size(); ++i) {
             int newX = cl.sites[i];
             int dist = abs(cells[i]->originalX - newX);
             curMax = max(curMax, dist);
+            // cout << "curMax = " << curMax << endl;
         }
         if (curMax < best.maxDisp) {
+            // if (best.maxDisp != INT_MAX) cout << "真的有不一樣" << endl;
             best.order = cells;
             best.maxDisp = curMax;
-            cout << "真的有不一樣" << endl;
         }
     } while (next_permutation(cells.begin(), cells.end()));
+    // cout << endl;
     return best;
 }
 
 void ApplyClusterPlacement(Cluster& cl, const PermResult& best) {
-    for (int i = 0; i < best.order.size(); ++i) {
+    for (size_t i = 0; i < best.order.size(); ++i) {
         Component* cell = best.order[i];
         int newX = cl.sites[i];  // 注意：site 順序對應 cell 排序
         cell->laterX = newX;
         // ✅ 正確更新 displacement
-        if (cell->distance != abs(cell->originalX - newX) + abs(cell->originalY - cell->laterY)) cout << "befor = " << cell->distance << " after = " << abs(cell->originalX - newX) + abs(cell->originalY - cell->laterY);
+        // if (cell->distance != abs(cell->originalX - newX) + abs(cell->originalY - cell->laterY)) cout << "befor = " << cell->distance << " after = " << abs(cell->originalX - newX) + abs(cell->originalY - cell->laterY);
         cell->distance = abs(cell->originalX - newX) + abs(cell->originalY - cell->laterY);
     }
 }
