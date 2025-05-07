@@ -1,11 +1,11 @@
 CC = g++
 CFLAGS = -Wall -O3 -march=native
-SRCS = main.cpp myStruct.cpp function.cpp gnuPlot.cpp
+SRCS = main.cpp my_struct.cpp function.cpp gnu_plot.cpp
 OBJS = $(SRCS:.cpp=.o)
 
-all : legalizer
+all : picRouting
 
-legalizer: $(OBJS)
+picRouting: $(OBJS)
 	$(CC) -o $@ $^ $(CFLAGS)
 	rm -f $(OBJS)
 
@@ -13,4 +13,4 @@ legalizer: $(OBJS)
 	$(CC) -c $< $(CFLAGS)
 
 clean:
-	rm -f legalizer $(OBJS)
+	rm -f picRouting $(OBJS)
