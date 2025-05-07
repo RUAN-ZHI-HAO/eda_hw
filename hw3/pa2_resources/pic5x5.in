@@ -1,0 +1,8 @@
+grid 5 5
+propagation loss 1
+crossing loss 10
+bending loss 3
+num net 3
+0 0 1 4 1
+1 3 3 0 3
+2 4 4 1 1
