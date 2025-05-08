@@ -1,15 +1,16 @@
 #include "my_struct.h"
+#include "function.h"
 
 int main(int argc, char* argv[]) {
     std::ifstream inputFile(argv[1]);
-    std::ofstream outputFile(argv[2]);
+    std::string outputFileName = argv[2];
 
     if (!inputFile) {
         std::cerr << "you need ChatGPT help -__-" << std::endl;
         return 1;
     }
 
-    Point dieArea(0, 0);
+    Point dieArea;
     std::map<std::string, int> loss;
     std::vector<Net> nets;
 
@@ -59,4 +60,25 @@ int main(int argc, char* argv[]) {
     for (const auto &net : nets) {
         std::cout << "index = " << net.index << " src = (" << net.src.x << ", " << net.src.y << ") dst = (" << net.dst.x << ", " << net.dst.y << ")" << std::endl;
     }
+    std::cout << std::endl;
+
+    std::map<Point, int> gridUsageCount;
+    std::map<std::string, int> ratio = {{"propagation", 1}, {"crossing", 1}, {"bending", 1}};
+    for (const auto &net : nets) {
+        gridUsageCount[net.src]++;
+        gridUsageCount[net.dst]++;
+    }
+    for (size_t i = 0; i < nets.size(); i++) {
+        // std::cout << "i = " << i << std::endl;
+        AStar(dieArea, nets[i], loss, gridUsageCount, ratio);
+    }
+
+    // AStar(dieArea, nets[0], loss, gridUsageCount, ratio);
+
+    // std::cout << "path size = " << nets[0].path.size() << std::endl;
+    // for (const auto &point : nets[0].path) {
+    //     std::cout << point.x << ' ' << point.y << std::endl;
+    // }
+
+    outputFile(outputFileName, nets);
 }
