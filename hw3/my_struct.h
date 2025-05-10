@@ -33,6 +33,7 @@ struct Point {
 struct Net {
     int index;
     Point src, dst;
+    int loss;
     std::vector<Point> path;
 
     Net(int index, int srcX, int srcY, int dstX, int dstY);

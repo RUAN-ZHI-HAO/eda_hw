@@ -1,8 +1,5 @@
 #include "function.h"
 
-Point secondNode;
-Point thirdNode;
-
 int calculateBend(const Node &node) {
     Point a = node.point;
     Point b = node.firstSource;
@@ -97,7 +94,7 @@ void AStar(Point dieArea, Net &net, const std::map<std::string, int> &loss, std:
         nodes.pop();
         // std::cout << std::endl;
     }
-    gridUsageCount[net.src]++;
+    // gridUsageCount[net.src]++;
     gridUsageCount[net.dst]++;
     Point dstPoint = currentNode.point;
     net.path.push_back(currentNode.point);
@@ -107,8 +104,6 @@ void AStar(Point dieArea, Net &net, const std::map<std::string, int> &loss, std:
         gridUsageCount[srcPoint]++;
         dstPoint = srcPoint;
     }
-
-
 
     // Point pp = currentNode.point;
     // while (pp != net.src) {
@@ -124,7 +119,7 @@ void outputFile(std::string &outputFileName, std::vector<Net> &nets) {
     std::ofstream file(outputFileName);
     for (size_t i = 0; i < nets.size(); i++) {
         int pathSize = nets[i].path.size();
-        file << i << ' ' << pathSize - 1 << std::endl;
+        file << nets[i].index << ' ' << pathSize - 1 << std::endl;
         for (int j = pathSize - 1; j >= 0; j--) {
             Point point = nets[i].path[j];
             if (j == 0) file << point.x << ' ' << point.y;
@@ -134,3 +129,35 @@ void outputFile(std::string &outputFileName, std::vector<Net> &nets) {
         if (i != nets.size() - 1) file << std::endl;
     }
 }
+
+int calculateNetCost(Net &net, std::map<Point, int> &gridUsageCount, std::map<std::string, int> &loss) {
+    int propagationLoss = net.path.size() - 1;
+    int crossingLoss = 0;
+    int bendingLoss = 0;
+
+    for (const auto point : net.path) {
+        // std::cout << point.x << ' ' << point.y << std::endl;
+        // std::cout << "gridUsageCount = " << gridUsageCount[point] << std::endl;
+        if (gridUsageCount[point] > 1) crossingLoss++;
+    }
+
+    Point firstPoint, secondPoint, thirdPoint;
+    for (size_t i = 2; i < net.path.size(); i++) {
+        thirdPoint = net.path[i];
+        secondPoint = net.path[i - 1];
+        firstPoint = net.path[i - 2];
+
+        // 如果三點都在垂直或水平直線上，沒有彎折
+        if ((firstPoint.x == secondPoint.x && secondPoint.x == thirdPoint.x) ||
+            (firstPoint.y == secondPoint.y && secondPoint.y == thirdPoint.y)) {
+            continue;
+        }
+
+        // std::cout << "first " << firstPoint.x << ' ' << firstPoint.y << " second " << secondPoint.x << ' ' << secondPoint.y << " third " << thirdPoint.x << ' ' << thirdPoint.y << std::endl;
+        bendingLoss++;
+    }
+    // std::cout << loss["propagation"] << std::endl;
+    // std::cout << "propagation = " << propagationLoss << " crossing = " << crossingLoss << " bending = " << bendingLoss << std::endl;
+    return propagationLoss * loss["propagation"] + crossingLoss * loss["crossing"] + bendingLoss * loss["bending"];
+}
+

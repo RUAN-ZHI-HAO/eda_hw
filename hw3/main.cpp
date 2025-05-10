@@ -45,7 +45,11 @@ int main(int argc, char* argv[]) {
             loss["bending"] = bending;
         }
         else if (keyword == "num") {
-            while(getline(inputFile, line)) {
+            int count = 0;
+            std::string temp;
+            iss >> temp >> count;
+            for (int i = 0; i < count; i++) {
+                getline(inputFile, line);
                 std::istringstream iss(line);
                 int index, srcX, srcY, dstX, dstY;
                 iss >> index >> srcX >> srcY >> dstX >> dstY;
@@ -71,14 +75,47 @@ int main(int argc, char* argv[]) {
     for (size_t i = 0; i < nets.size(); i++) {
         // std::cout << "i = " << i << std::endl;
         AStar(dieArea, nets[i], loss, gridUsageCount, ratio);
+        nets[i].loss = calculateNetCost(nets[i], gridUsageCount, loss);
+        // std::cout << "net " << i << " loss = " << nets[i].loss << std::endl;
+        // for (const auto point : nets[i].path) {
+        //     std::cout << "point = " << point.x << ' ' << point.y << std::endl;
+        // }
     }
 
-    // AStar(dieArea, nets[0], loss, gridUsageCount, ratio);
+    for (int i = 0; i < 10; i++) {
+        std::cout << "第 " << i << " 次優化" << std::endl;
+        int originalCost = 0;
+        int afterCost = 0;
 
-    // std::cout << "path size = " << nets[0].path.size() << std::endl;
-    // for (const auto &point : nets[0].path) {
-    //     std::cout << point.x << ' ' << point.y << std::endl;
-    // }
+        std::vector<Net> copyNets = nets;
+        std::sort(copyNets.begin(), copyNets.end(), [](const Net &a, const Net &b) {
+            return a.loss > b.loss;
+        });
+        for (auto &net : copyNets) {
+            net.loss = 0;
+            net.path.clear();
+        }
+
+        std::map<Point, int> gridUsageCount;
+        for (size_t j = 0; j < copyNets.size(); j++) {
+            gridUsageCount[copyNets[j].src]++;
+            gridUsageCount[copyNets[j].dst]++;
+            // std::cout << "j = " << j << std::endl;
+            AStar(dieArea, copyNets[j], loss, gridUsageCount, ratio);
+            copyNets[j].loss = calculateNetCost(copyNets[j], gridUsageCount, loss);
+            // std::cout << "copyNet " << j << " loss = " << copyNets[j].loss << std::endl;
+            // for (const auto point : nets[j].path) {
+            //     std::cout << "point = " << point.x << ' ' << point.y << std::endl;
+            // }
+
+            originalCost += nets[j].loss;
+            afterCost += copyNets[j].loss;
+        }
+        if (afterCost < originalCost) nets = copyNets;
+        else break;
+
+        // std::cout << std::endl;
+    }
 
     outputFile(outputFileName, nets);
 }
