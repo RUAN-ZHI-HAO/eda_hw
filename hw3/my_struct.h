@@ -9,6 +9,9 @@
 #include <map>
 #include <queue>
 #include <algorithm>
+#include <climits>
+#include <unordered_map>
+#include <unordered_set>
 
 struct Point {
     int x, y;
@@ -33,24 +36,24 @@ struct Point {
 struct Net {
     int index;
     Point src, dst;
-    int loss;
+    float loss;
     std::vector<Point> path;
 
     Net(int index, int srcX, int srcY, int dstX, int dstY);
 };
 
 struct Node {
-    Point point;
-    Point firstSource;
-    Point secondSource;
-    int loss;
+        Point p;
+        int g = 0;
+        float  f = 0;
+        int dir = -1;
+        bool operator<(const Node &o) const { return f > o.f; }
+    };
 
-    bool operator<(const Node& other) const {
-        return loss  > other.loss;
+struct PointHash {
+    std::size_t operator()(const Point& p) const noexcept {
+        return (static_cast<std::size_t>(p.x) << 20) ^ p.y;
     }
-
-    Node(Point point, Point firstSource = Point(), Point secondSource = Point(), int loss = 0);
 };
-
 
 #endif
